@@ -1,1 +1,75 @@
-<p>list-reservation works!</p>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-loader" [fullScreen]="true">
+  <p style="color: white">Chargement...</p>
+</ngx-spinner>
+
+
+<div class="card">
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="right">
+      <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
+        class="p-button-success p-mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+        <br/>
+        <button type="button" pButton pRipple icon="pi pi-plus-circle" (click)="goTosalle()"
+        class="p-button-info p-mr-1" pTooltip="Ajouter Salle" tooltipPosition="bottom"></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table #dt [value]="reservationList" [rows]="10" [paginator]="true" [globalFilterFields]="[
+      'salle',
+      'dateDebut',
+      'dateFin'
+    ]" responsiveLayout="scroll" [rowHover]="true" dataKey="salle"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">Liste Salles</h5>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+            placeholder="Recherche..." />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="salle">
+          <div class="p-d-flex p-jc-between p-ai-center">
+           Salle
+            <p-columnFilter type="text" field="salle" display="menu"></p-columnFilter>
+            <p-sortIcon field="salle"></p-sortIcon>
+          </div>
+        </th>
+        <th pSortableColumn="dateDebut">
+          <div class="p-d-flex p-jc-between p-ai-center">
+            Date Début
+            <p-columnFilter type="text" field="dateDebut" display="menu"></p-columnFilter>
+            <p-sortIcon field="dateDebut"></p-sortIcon>
+          </div>
+        </th>
+        <th pSortableColumn="dateFin">
+          <div class="p-d-flex p-jc-between p-ai-center">
+            Date Fin
+            <p-columnFilter type="text" field="dateFin" display="menu"></p-columnFilter>
+            <p-sortIcon field="dateFin"></p-sortIcon>
+          </div>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-reservation let-rowIndex="rowIndex">
+      <tr>
+       <!-- display list of reservation
+         -->
+        <td><b>{{ reservation.salle }}</b></td>
+        <td><b>{{ reservation.dateDebut }}</b></td>
+        <td>{{ reservation.dateFin }}</td>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        Au total il y a
+        {{ reservationList ? reservationList.length : 0 }} Enregistrements.
+      </div>
+    </ng-template>
+  </p-table>
+</div>

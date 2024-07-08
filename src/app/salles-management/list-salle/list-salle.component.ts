@@ -22,7 +22,7 @@ export class ListSalleComponent implements OnInit {
 
   isLoading:boolean = true;
   constructor(
-    private bookService: SalleService,
+    private salleService: SalleService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private spinner:NgxSpinnerService,
@@ -38,7 +38,7 @@ export class ListSalleComponent implements OnInit {
   //get the list of salles
   getSallesList(){
     this.spinner.show();
-    this.bookService.getSalleList().subscribe(data=>{
+    this.salleService.getSalleList().subscribe(data=>{
       this.salleList = data;
       this.spinner.hide();
       console.log("INSPECTION DATA=",this.salleList);

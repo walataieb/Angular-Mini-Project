@@ -9,16 +9,16 @@
       <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
         class="p-button-success p-mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
         <br/>
-        <button type="button" pButton pRipple icon="pi pi-plus-circle" (click)="goTosalle()"
+        <button type="button" pButton pRipple icon="pi pi-plus-circle" (click)="goToReservation()"
         class="p-button-info p-mr-1" pTooltip="Ajouter Salle" tooltipPosition="bottom"></button>
     </ng-template>
   </p-toolbar>
 
   <p-table #dt [value]="salleList" [rows]="10" [paginator]="true" [globalFilterFields]="[
-      'id',
-      'title',
-      'descr'
-    ]" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
+      'nameSalle',
+      'capacite',
+      'equipement'
+    ]" responsiveLayout="scroll" [rowHover]="true" dataKey="nameSalle"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
@@ -32,44 +32,36 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-      <!--  <th style="width: 3rem">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-        </th>-->
-        <th pSortableColumn="id">
+        <th pSortableColumn="nameSalle">
           <div class="p-d-flex p-jc-between p-ai-center">
            Nom
-            <p-columnFilter type="text" field="id" display="menu"></p-columnFilter>
-            <p-sortIcon field="id"></p-sortIcon>
+            <p-columnFilter type="text" field="nameSalle" display="menu"></p-columnFilter>
+            <p-sortIcon field="nameSalle"></p-sortIcon>
           </div>
         </th>
-        <th pSortableColumn="title">
+        <th pSortableColumn="capacite">
           <div class="p-d-flex p-jc-between p-ai-center">
             Capacité
-            <p-columnFilter type="text" field="title" display="menu"></p-columnFilter>
-            <p-sortIcon field="title"></p-sortIcon>
+            <p-columnFilter type="text" field="capacite" display="menu"></p-columnFilter>
+            <p-sortIcon field="capacite"></p-sortIcon>
           </div>
         </th>
-        <th pSortableColumn="descr">
+        <th pSortableColumn="equipement">
           <div class="p-d-flex p-jc-between p-ai-center">
             Equipement
-            <p-columnFilter type="text" field="descr" display="menu"></p-columnFilter>
-            <p-sortIcon field="descr"></p-sortIcon>
+            <p-columnFilter type="text" field="equipement" display="menu"></p-columnFilter>
+            <p-sortIcon field="equipement"></p-sortIcon>
           </div>
         </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-salle let-rowIndex="rowIndex">
       <tr>
-       <!-- <td>
-          <p-tableCheckbox [value]="inspection"></p-tableCheckbox>
-        </td> -->
+       <!-- Display list of salles
+         -->
         <td><b>{{ salle.nameSalle }}</b></td>
         <td><b>{{ salle.capacite }}</b></td>
         <td>{{ salle.equipement }}</td>
-       <!--
-        <td>
-          {{ inspection.transmission_Date | date: "dd/MM/yyyy HH:mm:ss" }}
-        </td> -->
       </tr>
     </ng-template>
     <ng-template pTemplate="summary">
