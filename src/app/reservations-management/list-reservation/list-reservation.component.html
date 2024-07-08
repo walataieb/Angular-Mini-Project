@@ -66,8 +66,8 @@
        <!-- display list of reservation
          -->
         <td><b>{{ reservation.salle }}</b></td>
-        <td><b>{{ reservation.dateDebut }}</b></td>
-        <td>{{ reservation.dateFin }}</td>
+        <td><b>{{ reservation.dateDebut  | date : "dd MMM, yyyy 'à' HH:mm" }}</b></td>
+        <td>{{ reservation.dateFin  | date : "dd MMM, yyyy 'à' HH:mm" }}</td>
         <td>
           <!--Boutton update Salle : Open a modal Form to update record-->
          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="updateReservation(reservation)"></button>
