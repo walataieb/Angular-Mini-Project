@@ -1,0 +1,83 @@
+<div class="auth-main">
+  <div class="auth-wrapper v3">
+    <div class="auth-form">
+      <div class="card my-5">
+        <div class="card-body">
+          <a href="/default" class="d-flex justify-content-center">
+            <img src="../../../../assets/booking-svgrepo-com.svg" height="50px"/>
+          </a>
+          <div class="row">
+            <div class="d-flex justify-content-center">
+              <div class="auth-header">
+                <h2 class="text-secondary mt-5"><b>Salut, bienvenue à nouveau</b></h2>
+                <p class="fs-4 mt-2">Entrez vos identifiants pour continuer</p>
+              </div>
+            </div>
+          </div>
+          <form
+      *ngIf="!isLoggedIn"
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" value="info@codedthemes.com" name="username"
+            [(ngModel)]="form.username"
+          required
+          #username="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && username.errors }"/>
+            <label for="floatingInput">addresse Email / Pseudo</label>
+            <div *ngIf="username.errors && f.submitted" class="invalid-feedback">
+              Username is required!
+            </div>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="password" value="12345"
+            name="password"
+          [(ngModel)]="form.password"
+          required
+          minlength="6"
+          #password="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && password.errors }"/>
+            <label for="password">Mot de passe</label>
+
+            <div *ngIf="password.errors && f.submitted" class="invalid-feedback">
+              <div *ngIf="password.errors['required']">Mot de passe requis</div>
+              <div *ngIf="password.errors['minlength']">
+                Le mot de passe doit être au moins de 6 caractères
+              </div>
+            </div>
+
+          </div>
+          <div class="d-flex mt-1 justify-content-between">
+            <div class="form-check">
+              <input class="form-check-input input-primary" type="checkbox" id="customCheckc1" checked="" />
+              <label class="form-check-label text-muted" for="customCheckc1">Rester connecté</label>
+            </div>
+            <h5 class="text-secondary">
+              <a href="javascript:">Mot de passe oublié?</a>
+            </h5>
+          </div>
+          <div class="d-grid mt-4">
+            <button type="submit" class="btn btn-secondary">Se connecter</button>
+          </div>
+          <div class="form-group">
+            <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger" role="alert">
+              La connexion a échoué: {{ errorMessage }}
+            </div>
+          </div>
+        </form>
+          <hr />
+          <h5 class="d-flex justify-content-center">
+            <!-- ena commentitha psk na7it l standalone <a [routerLink]="['/guest/register']">Vous n'avez pas de compte ?</a> -->
+            <!--   <a>Vous n'avez pas de compte ?</a> -->
+          </h5>
+          <div class="alert alert-success" *ngIf="isLoggedIn">
+            connecté en tant que : {{ roles }}.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
