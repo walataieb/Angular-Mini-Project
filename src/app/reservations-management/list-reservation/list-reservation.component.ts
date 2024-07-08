@@ -7,6 +7,9 @@ import { MessageService } from 'primeng/api';
 import * as FileSaver from 'file-saver';
 import { NgxSpinnerService } from 'ngx-spinner';
 
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AddReservationComponent } from '../add-reservation/add-reservation.component';
+
 @Component({
   selector: 'app-list-reservation',
   templateUrl: './list-reservation.component.html',
@@ -17,6 +20,13 @@ export class ListReservationComponent implements OnInit {
   //declare reservation list
   reservationList: Reservation[] = [];
 
+
+  //Reservation selected variable
+  selectedReservation: Reservation | null = null;
+
+  ref?: DynamicDialogRef;
+
+
   //declare new reservation
   Reservation: Reservation = new Reservation();
 
@@ -26,7 +36,8 @@ export class ListReservationComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private spinner:NgxSpinnerService,
-    private router: Router
+    private router: Router,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit() {
@@ -59,9 +70,78 @@ export class ListReservationComponent implements OnInit {
     });
 }
 
-//navigate to salle component
-goToSalle() {
+//navigate to reservation component
+goToReservation() {
   this.router.navigate(['/']);
+}
+
+//Get the selected reservation
+selectReservation(reservation: Reservation) {
+
+  this.selectedReservation = reservation;
+}
+
+//Update Reservation
+public updateReservation(reservation: Reservation){
+ this.selectedReservation = reservation;
+ console.log("update  : ",this.selectedReservation);
+ this.ref = this.dialogService.open(AddReservationComponent, { header: 'Modification réservation',
+ baseZIndex: 10000,
+ width:"80%",
+ data: {
+   reservation: this.selectedReservation // Pass the selected reservation as data
+}});
+ this.ref.onClose.subscribe((reservation:any) => {
+   if (reservation) {
+   // Find the index of the selected reservation in the ReservationList
+   const userIndex = this.reservationList.findIndex(u => u.salle === reservation.salle);
+
+   if (userIndex !== -1) {
+     // Replace the reservation with the updated reservation
+     this.reservationList[userIndex] = reservation;
+     console.log("RESERVATION updated SUCCESSFULLY:", reservation);
+   }
+ }
+});
+}
+
+fetchReservationList() {
+ // Fetch the updated reservation list from the server and update ReservationList
+ this.reservationService.getReservationList().subscribe((reservations) => {
+   this.reservationList = reservations;
+ });
+}
+
+
+//DELETE SALLE
+onDeleteReservation(reservation: Reservation) {
+ this.selectedReservation = reservation;
+ if (this.selectedReservation) {
+   // Show a confirmation dialog
+   this.confirmationService.confirm({
+     message: 'Voulez-vous supprimer cette reservation ?',
+     header: 'Confirmation',
+     icon: 'pi pi-exclamation-triangle',
+     acceptLabel: 'Oui', // Customize the accept (Yes) button label
+     rejectLabel: 'Non', // Customize the reject (No) button label
+     accept: () => {
+       // User clicked "Yes"
+
+       const userIndex = this.reservationList.findIndex(u => u.salle === this.selectedReservation?.salle);
+       this.reservationService.updateReservation( this.selectedReservation?.salle, this.selectedReservation).subscribe(() => {
+         this.fetchReservationList();
+         this.selectedReservation = null;
+       });
+
+       if (userIndex !== -1) {
+         this.reservationList.splice(userIndex, 1);
+       }
+     },
+     reject: () => {
+       // User clicked "No" or closed the dialog
+     },
+   });
+ }
 }
 
 //save result to excel file

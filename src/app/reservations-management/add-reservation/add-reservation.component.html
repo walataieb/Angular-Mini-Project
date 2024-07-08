@@ -1,1 +1,51 @@
-<p>add-reservation works!</p>
+
+<app-card cardTitle="Reservation">
+  <form  #myForm="ngForm" (ngSubmit)="save()" novalidate >
+    <div class="form-group">
+
+
+      <div class="row">
+        <div class="col">
+    <div class="form-group">
+      <label for="name">Salle</label>
+      <div class="p-inputgroup">
+        <input type="text" pInputText placeholder="Libellé"  [(ngModel)]="salle.nameSalle" name="salle" #nameSallelInput="ngModel" required />
+    </div>
+    </div>
+    </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+    <div class="form-group">
+      <label for="capacite">Date debut</label>
+      <input type="date" id="dateDebut" class="form-control" [(ngModel)]="dateDebut" name="dateDebut" />
+    </div>
+    </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+    <div class="form-group">
+      <label for="equipement">Date Fin</label>
+      <input type="date" id="dateFin" class="form-control" [(ngModel)]="dateFin" name="dateFin" />
+
+
+    </div>
+    </div>
+      </div>
+
+
+
+
+  </div>
+  <br/>
+    <div class="form-group col-sm-6"> <p-button type="submit" >Valider</p-button> </div>
+
+  </form>
+
+
+</app-card>
+
+

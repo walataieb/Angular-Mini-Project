@@ -8,6 +8,9 @@ import {  AddSalleComponent } from './add-salle/add-salle.component';
 import { PrimeNgSharedModule } from 'src/app/prime-ng-shared/prime-ng-shared.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
+import {  } from '../shared/shared.module';
+
+
 
 //Declare the modules of the Salles management
 

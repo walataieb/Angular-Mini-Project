@@ -9,9 +9,9 @@
     <div class="form-group">
       <label for="name">Nom Salle</label>
       <div class="p-inputgroup">
-        <input type="text" pInputText placeholder="Libellé"  [(ngModel)]="nameSalle" name="GroupLabel" #groupLabelInput="ngModel" required />
+        <input type="text" pInputText placeholder="Libellé"  [(ngModel)]="nameSalle" name="nameSalle" #nameSallelInput="ngModel" required />
     </div>
-    <div *ngIf="groupLabelInput.invalid && (groupLabelInput.dirty || groupLabelInput.touched)">
+    <div *ngIf="nameSallelInput.invalid && (nameSalle.dirty || nameSallelInput.touched)">
       <small class="text-danger">Le Nom Salle est obligatoire.</small>
     </div>
     </div>
@@ -23,7 +23,7 @@
         <div class="col">
     <div class="form-group">
       <label for="capacite">Capacité</label>
-      <input type="text" pInputText placeholder="Libellé"  [(ngModel)]="capacite" name="GroupLabel" #groupLabelInput="ngModel" required />
+      <input type="text" pInputText placeholder="Libellé"  [(ngModel)]="capacite" name="capacite" #groupLabelInput="ngModel"  />
 
     </div>
     </div>
@@ -32,7 +32,9 @@
       <div class="row">
         <div class="col">
     <div class="form-group">
-      <label for="capacite">Proprètaire</label>
+      <label for="equipement">Equipement</label>
+        <input type="text" pInputText placeholder="Libellé"  [(ngModel)]="equipement" name="equipement" #groupLabelInput="ngModel" required />
+
 
     </div>
     </div>

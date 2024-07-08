@@ -53,16 +53,27 @@
             <p-sortIcon field="dateFin"></p-sortIcon>
           </div>
         </th>
+        <th style="width: 10rem">
+          <div class="flex align-items-center">
+            Actions
+
+          </div>
+      </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-reservation let-rowIndex="rowIndex">
-      <tr>
+      <tr (click)="selectSalle(reservation)">
        <!-- display list of reservation
          -->
         <td><b>{{ reservation.salle }}</b></td>
         <td><b>{{ reservation.dateDebut }}</b></td>
         <td>{{ reservation.dateFin }}</td>
-
+        <td>
+          <!--Boutton update Salle : Open a modal Form to update record-->
+         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="updateReservation(reservation)"></button>
+          <!--Boutton delete Salle-->
+         <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDeleteReservation(reservation)"></button>
+     </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="summary">

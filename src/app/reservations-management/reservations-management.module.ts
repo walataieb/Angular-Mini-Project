@@ -6,6 +6,7 @@ import { ReservationManagementRoutingModule } from './reservations-management-ro
 import {  ListReservationComponent } from './list-reservation/list-reservation.component';
 import {  AddReservationComponent } from './add-reservation/add-reservation.component';
 import { PrimeNgSharedModule } from 'src/app/prime-ng-shared/prime-ng-shared.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 //Declare the modules of the reservations management
@@ -19,6 +20,7 @@ import { PrimeNgSharedModule } from 'src/app/prime-ng-shared/prime-ng-shared.mod
   imports: [
     CommonModule,
     PrimeNgSharedModule,
+    NgxSpinnerModule,
     ReservationManagementRoutingModule
   ]
 })
