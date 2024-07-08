@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Salle } from '../../models/salle';
 import { Router } from '@angular/router';
 import { SalleService } from '../../services/salle-service';
-import { ConfirmationService } from 'primeng/api';
-import { MessageService } from 'primeng/api';
 import * as FileSaver from 'file-saver';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AddSalleComponent } from '../add-salle/add-salle.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-list-salle',
@@ -17,6 +18,11 @@ export class ListSalleComponent implements OnInit {
   //declare salle list
   salleList: Salle[] = [];
 
+  //Salle selected variable
+  selectedSalle: Salle | null = null;
+
+  ref?: DynamicDialogRef;
+
   //declare new salle
   Salle: Salle = new Salle();
 
@@ -24,9 +30,10 @@ export class ListSalleComponent implements OnInit {
   constructor(
     private salleService: SalleService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService,
     private spinner:NgxSpinnerService,
-    private router: Router
+    private confirmationService: ConfirmationService,
+    private router: Router,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit() {
@@ -55,8 +62,92 @@ export class ListSalleComponent implements OnInit {
         const worksheet = xlsx.utils.json_to_sheet(this.salleList);
         const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
         const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-        this.saveAsExcelFile(excelBuffer, "Livres");
+        this.saveAsExcelFile(excelBuffer, "Salles");
     });
+}
+
+
+//open Modal to add reservation
+
+public addNewSalle(){
+  this.ref = this.dialogService.open(AddSalleComponent, { header: 'Ajouter nouveau chauffeur',
+  baseZIndex: 10000,
+  width:"80%"});
+  this.ref.onClose.subscribe((salle:any) => {
+    if (salle) {
+      this.salleList.push(salle);
+      console.log("SALLE ADDED SUCCESFULLY:",salle);
+    }
+});
+}
+
+//Get the selected salle
+selectSalle(salle: Salle) {
+
+   this.selectedSalle = salle;
+ }
+
+//Update Salle
+public updateSalle(salle: Salle){
+  this.selectedSalle = salle;
+  console.log("update  : ",this.selectedSalle);
+  this.ref = this.dialogService.open(AddSalleComponent, { header: 'Modification salle',
+  baseZIndex: 10000,
+  width:"80%",
+  data: {
+    salle: this.selectedSalle // Pass the selected salle as data
+}});
+  this.ref.onClose.subscribe((salle:any) => {
+    if (salle) {
+    // Find the index of the selected salle in the SalleList
+    const userIndex = this.salleList.findIndex(u => u.nameSalle === salle.nameSalle);
+
+    if (userIndex !== -1) {
+      // Replace the salle with the updated salle
+      this.salleList[userIndex] = salle;
+      console.log("USER updated SUCCESSFULLY:", salle);
+    }
+  }
+});
+}
+
+fetchSalleList() {
+  // Fetch the updated salle list from the server and update SalleList
+  this.salleService.getSalleList().subscribe((salles) => {
+    this.salleList = salles;
+  });
+}
+
+
+//DELETE SALLE
+onDeleteSalle(driver: Salle) {
+  this.selectedSalle = driver;
+  if (this.selectedSalle) {
+    // Show a confirmation dialog
+    this.confirmationService.confirm({
+      message: 'Voulez-vous supprimer cette salle ?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Oui', // Customize the accept (Yes) button label
+      rejectLabel: 'Non', // Customize the reject (No) button label
+      accept: () => {
+        // User clicked "Yes"
+
+        const userIndex = this.salleList.findIndex(u => u.nameSalle === this.selectedSalle?.nameSalle);
+        this.salleService.updateSalle( this.selectedSalle?.nameSalle, this.selectedSalle).subscribe(() => {
+          this.fetchSalleList();
+          this.selectedSalle = null;
+        });
+
+        if (userIndex !== -1) {
+          this.salleList.splice(userIndex, 1);
+        }
+      },
+      reject: () => {
+        // User clicked "No" or closed the dialog
+      },
+    });
+  }
 }
 
 //navigate to reservation component

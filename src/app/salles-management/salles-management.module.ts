@@ -6,6 +6,7 @@ import { SalleManagementRoutingModule } from './salles-management-routing.module
 import {  ListSalleComponent } from './list-salle/list-salle.component';
 import {  AddSalleComponent } from './add-salle/add-salle.component';
 import { PrimeNgSharedModule } from 'src/app/prime-ng-shared/prime-ng-shared.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 //Declare the modules of the Salles management
@@ -19,7 +20,8 @@ import { PrimeNgSharedModule } from 'src/app/prime-ng-shared/prime-ng-shared.mod
   imports: [
     CommonModule,
     PrimeNgSharedModule,
-    SalleManagementModule
+    NgxSpinnerModule,
+    SalleManagementRoutingModule
   ]
 })
 export class SalleManagementModule { }

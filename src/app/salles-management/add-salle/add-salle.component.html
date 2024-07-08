@@ -1,1 +1,53 @@
-<p>add-salle works!</p>
+
+<app-card cardTitle="Salle">
+  <form  #myForm="ngForm" (ngSubmit)="save()" novalidate >
+    <div class="form-group">
+
+
+      <div class="row">
+        <div class="col">
+    <div class="form-group">
+      <label for="name">Nom Salle</label>
+      <div class="p-inputgroup">
+        <input type="text" pInputText placeholder="Libellé"  [(ngModel)]="nameSalle" name="GroupLabel" #groupLabelInput="ngModel" required />
+    </div>
+    <div *ngIf="groupLabelInput.invalid && (groupLabelInput.dirty || groupLabelInput.touched)">
+      <small class="text-danger">Le Nom Salle est obligatoire.</small>
+    </div>
+    </div>
+    </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+    <div class="form-group">
+      <label for="capacite">Capacité</label>
+      <input type="text" pInputText placeholder="Libellé"  [(ngModel)]="capacite" name="GroupLabel" #groupLabelInput="ngModel" required />
+
+    </div>
+    </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+    <div class="form-group">
+      <label for="capacite">Proprètaire</label>
+
+    </div>
+    </div>
+      </div>
+
+
+
+
+  </div>
+  <br/>
+    <div class="form-group col-sm-6"> <p-button type="submit" >Valider</p-button> </div>
+
+  </form>
+
+
+</app-card>
+
+

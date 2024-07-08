@@ -5,6 +5,11 @@
 
 <div class="card">
   <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <!--Boutton Add new Salle : Open a modal Form to adding new record-->
+      <button pButton pRipple label="Ajouter" icon="pi pi-plus" class="p-button-success mr-2" (click)="addNewSalle()"></button>
+  </ng-template>
+
     <ng-template pTemplate="right">
       <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
         class="p-button-success p-mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
@@ -19,7 +24,8 @@
       'capacite',
       'equipement'
     ]" responsiveLayout="scroll" [rowHover]="true" dataKey="nameSalle"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
+    >
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <h5 class="m-0">Liste Salles</h5>
@@ -53,15 +59,28 @@
             <p-sortIcon field="equipement"></p-sortIcon>
           </div>
         </th>
+        <th style="width: 10rem">
+          <div class="flex align-items-center">
+            Actions
+
+          </div>
+      </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-salle let-rowIndex="rowIndex">
-      <tr>
+       <!--Get the id of selected item-->
+      <tr (click)="selectSalle(salle)">
        <!-- Display list of salles
          -->
         <td><b>{{ salle.nameSalle }}</b></td>
         <td><b>{{ salle.capacite }}</b></td>
         <td>{{ salle.equipement }}</td>
+        <td>
+           <!--Boutton update Salle : Open a modal Form to update record-->
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="updateSalle(salle)"></button>
+           <!--Boutton delete Salle-->
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onDeleteSalle(salle)"></button>
+      </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="summary">

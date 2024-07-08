@@ -55,7 +55,7 @@ export class ListReservationComponent implements OnInit {
         const worksheet = xlsx.utils.json_to_sheet(this.reservationList);
         const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
         const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-        this.saveAsExcelFile(excelBuffer, "Livres");
+        this.saveAsExcelFile(excelBuffer, "Reservations");
     });
 }
 

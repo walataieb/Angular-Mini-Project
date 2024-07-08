@@ -19,12 +19,12 @@ export class SalleService {
   }
 
     //update salle
-  updateSalle(id: number | string, data: any) {
+  updateSalle(id: any | string, data: any) {
     return this.http.put(this.reservationAPIUrl  + `/api/salles/update/${id}`, data);
   }
 
   //delete salle
-  deleteInpection(id: number | string) {
+  deleteInpection(id: any | string) {
     return this.http.delete(this.reservationAPIUrl  + `/api/salles/delete/${id}`);
   }
 

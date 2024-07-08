@@ -11,15 +11,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BooksService } from './services/books-service';
 import { LoginComponent } from './auth/login/login/login.component';
-import { AddSalleComponent } from './salles-management/add-salle/add-salle.component';
-import { ListSalleComponent } from './salles-management/list-salle/list-salle.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    AddSalleComponent,
-    ListSalleComponent,
 
   ],
   imports: [
